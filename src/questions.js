@@ -13,10 +13,10 @@ const viewMenu = [{
     choices: ["View All Employees", "View All Roles", "View All Departments", "View Employee By Manager", "View Employees By Department", "<"]
 }]
 
-const addMenu = [{
+const auMenu = [{
     type: "list",
     message: "What would you like to do?",
-    name: "addMenu",
+    name: "auMenu",
     choices: ["Add Employee", "Add Role", "Add Department", "Update Employee Manager", "<"]
 }]
 
@@ -26,8 +26,6 @@ const updateMenu = [{
     name: "updateMenu",
     choices: ["Update Employee Manager", "<"]
 }]
-
-//adding inqs
 
 const addDepartment = [{
     type: "input",
@@ -50,14 +48,14 @@ const addRole = [{
 const addEmployee = [{
     type: "input",
     message: "What is the employee's first name?",
-    name: "fName"
+    name: "firstName"
 },
 {
     type: "input",
     message: "What is the employee's last name?",
-    name: "lName"
+    name: "lastName"
 }]
 
 module.exports = {
-    mainMenu, viewMenu, addMenu, updateMenu, addDepartment, addRole, addEmployee
+    mainMenu, viewMenu, auMenu, updateMenu, addDepartment, addRole, addEmployee
 }

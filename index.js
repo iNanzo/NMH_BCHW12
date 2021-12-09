@@ -70,9 +70,9 @@ function viewPrompt(){
 }
 
 function addPrompt(){
-    inquirer.prompt(question.addMenu)
+    inquirer.prompt(question.auMenu)
         .then((response) => {
-                switch (response.addMenu) {
+                switch (response.auMenu) {
                     case "Add Department":
                         addDepartment();
                         break;
@@ -86,22 +86,7 @@ function addPrompt(){
                         break;
 
                     case "Update Employee Manager":
-                        updateEmpManager();
-                        break;
-
-                    case "<":
-                        mainMenuPrompt();
-                        break;
-                }
-            })
-}
-
-function updatePrompt(){
-    inquirer.prompt(question.updateMenu)
-        .then((response) => {
-                switch(response.updateMenu) {
-                    case "Update Employee Manager":
-                        updateEmpManager();
+                        updateManager();
                         break;
 
                     case "<":
@@ -133,17 +118,17 @@ function addEmployee(){
             })
 }
 
-async function renderDB(dbQuery) {
-    await db.promise().query(dbQuery).then((results) => {
+async function renderDB(db) {
+    await db.promise().query(db).then((results) => {
         console.table(results[0])
-    });
+    })
     mainMenuPrompt();
 }
 
-async function manipulateDB(dbQuery) {
-    await db.promise().query(dbQuery).then(() => {
+async function manipulateDB(db) {
+    await db.promise().query(db).then(() => {
         console.log("Query successful.")
-    });
+    })
     mainMenuPrompt();
 }
 
@@ -155,8 +140,8 @@ async function addRoleAdditional(title, salary) {
         reference = results[0];
         results[0].forEach(element => {
             deptArr.push(element.dept_name)
-        });
-    });
+        })
+    })
     inquirer.prompt(
         [{
             type: "list",
@@ -182,14 +167,14 @@ async function addEmployeeAdditional(firstName, lastName) {
         rolesRef = results[0];
         rolesRef.forEach(element => {
             rolesArr.push(element.title)
-        });
-    });
+        })
+    })
     await db.promise().query("select id, CONCAT(first_name,\' \',last_name) AS fullastName from employees").then((results) => {
         managerRef = results[0];
         results[0].forEach(element => {
             managerArr.push(element.fullastName)
-        });
-    });
+        })
+    })
     inquirer.prompt(
         [{
             type: "list",
@@ -214,15 +199,17 @@ async function addEmployeeAdditional(firstName, lastName) {
             })
 }
 
-async function updateEmpManager(){
+async function updateManager(){
     let empArr = [];
     let empRef;
+
     await db.promise().query("select id, CONCAT(first_name,\' \',last_name) AS fullastName from employees").then((results) => {
         empRef = results[0];
         results[0].forEach(element => {
             empArr.push(element.fullastName)
-        });
-    });
+        })
+    })
+
     inquirer.prompt(
         [{
             type: "list",
@@ -232,7 +219,7 @@ async function updateEmpManager(){
         },
         {
             type: "list",
-            message: "Select this employee's new manager: ",
+            message: "Select a new manager: ",
             name: "manager",
             choices: empArr
         }]
@@ -246,12 +233,14 @@ async function updateEmpManager(){
 async function employeeByManager(){
     let empArr = [];
     let empRef;
+
     await db.promise().query("select id, CONCAT(first_name,\' \',last_name) AS fullastName from employees").then((results) => {
         empRef = results[0];
         results[0].forEach(element => {
             empArr.push(element.fullastName)
-        });
-    });
+        })
+    })
+
     inquirer.prompt(
         [
             {
@@ -273,8 +262,8 @@ async function employeeByDept(){
         deptRef = results[0];
         results[0].forEach(element => {
             deptArr.push(element.dept_name)
-        });
-    });
+        })
+    })
     inquirer.prompt(
         [{
             type: "list",
