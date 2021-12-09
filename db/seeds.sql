@@ -1,29 +1,25 @@
 INSERT INTO department (dept_name)
 VALUES
     ("Engineering"),
-    ("Construction"),
-    ("Programming");
+    ("Sales"),
+    ("Finance"),
+    ("Legal");
 
 INSERT INTO roles (title, salary, department_id)
+VALUES    
+    ("Lead Engineer", 40000, 1),
+    ("Software Engineer", 30000, 1),
+    ("Salesman", 15000, 2),
+    ("Accountant", 25000, 3),
+    ("Lawyer", 35000, 4);
+
+INSERT INTO employees (first_name, last_name, role_id, manager_id)
 VALUES
-    ("Electrical Engineer", 20000, 1),
-    ("Civil Engineer", 30000, 1),
-    ("Mechanical Operator", 15000, 2),
-    ("Safety Officer", 20000, 2),
-    ("Javascript Developer", 40000, 3),
-    ("Full Stack Developer", 50000, 3);
-
-insert into employees (first_name, last_name, role_id)
-values
-    ('Thedric', 'Brothwood', 1),
-    ('Russell', 'McManamen', 2),
-    ('Kiele', 'Smedmore', 3),
-    ('Jodi', 'Cadogan', 4),
-    ('Tani', 'Chislett', 5);
-
-insert into employees (first_name, last_name, role_id, manager_id)
-values
-    ('Cassie', 'Lukas', 1, 1),
-    ('Dulcea', 'Piscopo', 2, 2),
-    ('Wallie', 'Pancast', 3, 3),
-    ('Marissa', 'Peasegod', 4, 4);
+    ("Newton", "Hoang", 1, null),
+    ("Thomas", "Nguyen", 2, 1),
+    ("Caris", "Matic", 3, null),
+    ("Isfan", "Gunawan", 2, 1),
+    ("Als", "Miles", 3, 3),
+    ("Goodwin", "Umber", 4, null),
+    ("Cal", "Curator", 4, 6),
+    ("Pheonix", "Wright", 5, null);
