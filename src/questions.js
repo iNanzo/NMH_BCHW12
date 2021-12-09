@@ -1,4 +1,5 @@
-//menus
+/* Menus */
+// Main Menu
 const mainMenu = [{
     type: "list",
     message: "What would you like to do?",
@@ -6,6 +7,7 @@ const mainMenu = [{
     choices: ["View", "Add/Update", "Quit"]
 }]
 
+// Sub Menus
 const viewMenu = [{
     type: "list",
     message: "What would you like to do?",
@@ -20,31 +22,8 @@ const auMenu = [{
     choices: ["Add Employee", "Add Role", "Add Department", "Update Employee Manager", "<"]
 }]
 
-const updateMenu = [{
-    type: "list",
-    message: "What would you like to do?",
-    name: "updateMenu",
-    choices: ["Update Employee Manager", "<"]
-}]
-
-const addDepartment = [{
-    type: "input",
-    message: "Which department does the role belong to?",
-    name: "name"
-}]
-
-const addRole = [{
-    type: "input",
-    message: "What is the name of the role?",
-    name: "name"
-},
-{
-    type: "input",
-    message: "What is the salary of the role?",
-    name: "salary",
-}
-]
-
+/* Prompts */
+// Add Prompts
 const addEmployee = [{
     type: "input",
     message: "What is the employee's first name?",
@@ -56,6 +35,23 @@ const addEmployee = [{
     name: "lastName"
 }]
 
+const addRole = [{
+    type: "input",
+    message: "What is the name of the role?",
+    name: "name"
+},
+{
+    type: "input",
+    message: "What is the salary of the role?",
+    name: "salary",
+}]
+
+const addDepartment = [{
+    type: "input",
+    message: "Which department does the role belong to?",
+    name: "name"
+}]
+
 module.exports = {
-    mainMenu, viewMenu, auMenu, updateMenu, addDepartment, addRole, addEmployee
+    mainMenu, viewMenu, auMenu, addEmployee, addRole, addDepartment
 }
