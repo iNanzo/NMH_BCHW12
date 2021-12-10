@@ -24,14 +24,12 @@ function mainMenuPrompt(){
     inquirer.prompt(question.mainMenu)
         .then((response) => {
                 switch(response.mainMenu) {
-                    case "View":
+                    case "View Lists":
                         viewPrompt();
                         break;
-
-                    case "Add/Update":
+                    case "Add/Update Object":
                         addPrompt();
                         break;
-                        
                     case "Quit":
                         console.log("Closing Application...");
                         process.kill(process.pid);
@@ -45,25 +43,20 @@ function viewPrompt(){
         .then((response) => {
                 switch(response.viewMenu) {
                     case "View All Employees":
-                        renderDB("SELECT a.id, a.first_name,a.last_name, roles.title, department.dept_name, roles.salary, CONCAT(b.last_name,\',\',b.first_name) AS Manager FROM employees a JOIN roles ON roles.id = a.role_id JOIN department ON roles.department_id = department.id left JOIN employees b ON a.manager_id = b.id ORDER BY a.id;");
+                        renderDB("Select a.id, a.first_name,a.last_name, roles.title, department.dept_name, roles.salary, concat(b.last_name,\',\',b.first_name) as Manager from employees a join roles on roles.id = a.role_id join department on roles.department_id = department.id left join employees b on a.manager_id = b.id order by a.id;");
                         break;
-                        
                     case "View All Roles":
-                        renderDB("SELECT roles.title, roles.id,department.dept_name,roles.salary FROM roles LEFT JOIN department ON department.id = roles.department_id ORDER BY roles.id;");
+                        renderDB("Select roles.title, roles.id, department.dept_name, roles.salary from roles LEFT join department on department.id = roles.department_id order by roles.id;");
                         break;
-
                     case "View All Departments":
-                        renderDB("SELECT * FROM department ORDER BY id;");
+                        renderDB("Select * from department order by id;");
                         break;
-
                     case "View Employee By Manager":
                         employeeByManager();
                         break;
-
                     case "View Employees By Department":
                         employeeByDept();
                         break;
-
                     case "<":
                         mainMenuPrompt();
                         break;
@@ -78,19 +71,15 @@ function addPrompt(){
                     case "Add Employee":
                         AddEmployeeInput();
                         break;
-
                     case "Add Role":
                         addRoleInput();
                         break;
-
                     case "Add Department":
                         addDepartment();
                         break;
-
                     case "Update Employee Manager":
                         updateManager();
                         break;
-
                     case "<":
                         mainMenuPrompt();
                         break;
@@ -102,7 +91,7 @@ function addPrompt(){
 function addDepartment(){
     inquirer.prompt(question.addDepartment)
         .then((response) => {
-                reloadDB(`INSERT INTO department (dept_name) VALUES ("${response.name}")`);
+                reloadDB(`Insert into department (dept_name) values ("${response.name}")`);
             })
 }
 
@@ -131,6 +120,7 @@ async function addRoleOutput(title, salary){
             deptArray.push(element.dept_name);
         })
     })
+
     inquirer.prompt(
         [{
             type: "list",
@@ -142,7 +132,7 @@ async function addRoleOutput(title, salary){
         .then(
             (response) => {
                 var id = getID(reference, "dept_name", response, "department");
-                reloadDB(`INSERT INTO roles (title, salary, department_id) VALUES("${title}", "${salary}", "${id}")`);
+                reloadDB(`Insert into roles (title, salary, department_id) values("${title}", "${salary}", "${id}")`);
             })
 }
 
@@ -151,13 +141,14 @@ async function addEmployeeOutput(firstName, lastName){
     var storedRoleArray;
     var managerArray = [];
     var storedManagerArray;
+
     await db.promise().query("select id, title from roles order by id").then((results) => {
         storedRoleArray = results[0];
         storedRoleArray.forEach(element => {
             roleArray.push(element.title)
         })
     })
-    await db.promise().query("select id, CONCAT(first_name,\' \',last_name) AS fullastName from employees").then((results) => {
+    await db.promise().query("select id, concat(first_name, \' \', last_name) as fullastName from employees").then((results) => {
         storedManagerArray = results[0];
         results[0].forEach(element => {
             managerArray.push(element.fullastName)
@@ -181,7 +172,7 @@ async function addEmployeeOutput(firstName, lastName){
         .then((response) => {
                 var roleId = getID(storedRoleArray, "title", response, "role");
                 var managerId = getID(storedManagerArray, "fullastName", response, "manager");
-                reloadDB(`INSERT INTO employees (first_name, last_name, role_id, manager_id) VALUES("${firstName}", "${lastName}", "${roleId}", "${managerId}")`);
+                reloadDB(`Insert into employees (first_name, last_name, role_id, manager_id) values("${firstName}", "${lastName}", "${roleId}", "${managerId}")`);
             })
 }
 
@@ -190,7 +181,7 @@ async function updateManager(){
     var managerArray = [];
     var storedArray;
 
-    await db.promise().query("select id, CONCAT(first_name,\' \',last_name) AS fullastName from employees").then((results) => {
+    await db.promise().query("select id, concat(first_name, \' \', last_name) as fullastName from employees").then((results) => {
         storedArray = results[0];
         results[0].forEach(element => {
             managerArray.push(element.fullastName);
@@ -213,7 +204,7 @@ async function updateManager(){
     ).then((response) => {
             var employeeID = getID(storedArray, "fullastName", response, "employee");
             var managerID = getID(storedArray, "fullastName", response, "manager");
-            manipulateDB(`UPDATE employees set manager_id = ${managerID} where id = ${employeeID}`);
+            reloadDB(`Update employees set manager_id = ${managerID} where id = ${employeeID}`);
         })
 }
 
@@ -225,7 +216,7 @@ async function employeeByManager(){
     var managerArray = [];
     var storedArray;
 
-    await db.promise().query("select id, CONCAT(first_name,\' \',last_name) AS fullastName from employees").then((results) => {
+    await db.promise().query("select id, concat(first_name,\' \',last_name) as fullastName from employees").then((results) => {
         storedArray = results[0];
         results[0].forEach(element => {
             managerArray.push(element.fullastName)
@@ -242,19 +233,21 @@ async function employeeByManager(){
             }]
     ).then((response) => {
             var manID = getID(storedArray, "fullastName", response, "manager")
-            renderDB(`SELECT a.id, a.first_name,a.last_name, CONCAT(b.last_name," ",b.first_name) AS Manager FROM employees a  left JOIN employees b ON a.manager_id = b.id where a.manager_id= ${manID} ORDER BY a.id;`)
+            renderDB(`Select a.id, a.first_name,a.last_name, concat(b.last_name," ",b.first_name) as Manager from employees a left join employees b on a.manager_id = b.id where a.manager_id= ${manID} order by a.id;`)
         })
 }
 
 async function employeeByDept(){
     var deptArray = [];
     var storedArray;
+
     await db.promise().query("select * from department").then((results) => {
         storedArray = results[0];
         results[0].forEach(element => {
             deptArray.push(element.dept_name)
         })
     })
+
     inquirer.prompt(
         [{
             type: "list",
@@ -264,7 +257,7 @@ async function employeeByDept(){
         }]
     ).then((response) => {
             var deptID = getID(storedArray, "dept_name", response, "department")
-            renderDB(`SELECT employees.id,first_name,last_name, roles.title,department.dept_name FROM employees  JOIN roles ON roles.id = employees.role_id JOIN department ON roles.department_id = department.id where department.id=${deptID} ORDER BY employees.id;`)
+            renderDB(`Select employees.id, first_name,last_name, roles.title, department.dept_name from employees join roles on roles.id = employees.role_id join department on roles.department_id = department.id where department.id=${deptID} order by employees.id;`)
         })
 }
 
@@ -279,7 +272,7 @@ async function renderDB(dbQuery){
 
 async function reloadDB(dbQuery){
     await db.promise().query(dbQuery).then(() => {
-        console.log("Successfully Added.")
+        console.log("Successfully Added.");
     })
     mainMenuPrompt();
 }

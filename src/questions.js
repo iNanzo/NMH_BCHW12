@@ -4,7 +4,7 @@ const mainMenu = [{
     type: "list",
     message: "What would you like to do?",
     name: "mainMenu",
-    choices: ["View", "Add/Update", "Quit"]
+    choices: ["View Lists", "Add/Update Object", "Quit"]
 }]
 
 // Sub Menus
