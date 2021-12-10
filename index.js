@@ -6,7 +6,7 @@ const question = require("./src/questions")
 require("dotenv").config();
 
 // SQL Database Connection
-//Diclaimer: If you are downloading this repository for your own use remember to set up an .env file along with populating the db/sql files.
+//Diclaimer: If you are downloading this repository for your own use remember to set up an .env file along with populating an sql database with the schema & seeds files.
 const db = mysql.createConnection(
     {
         host: process.env.DB_HOST,
@@ -52,7 +52,7 @@ function viewPrompt(){
                     case "View All Departments":
                         renderDB("Select * from department order by id;");
                         break;
-                    case "View Employee By Manager":
+                    case "View Employees By Manager":
                         employeeByManager();
                         break;
                     case "View Employees By Department":

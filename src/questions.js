@@ -12,7 +12,7 @@ const viewMenu = [{
     type: "list",
     message: "What would you like to do?",
     name: "viewMenu",
-    choices: ["View All Employees", "View All Roles", "View All Departments", "View Employee By Manager", "View Employees By Department", "<"]
+    choices: ["View All Employees", "View All Roles", "View All Departments", "View Employees By Manager", "View Employees By Department", "<"]
 }]
 
 const auMenu = [{
