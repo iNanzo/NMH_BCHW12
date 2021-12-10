@@ -6,6 +6,7 @@ const question = require("./src/questions")
 require("dotenv").config();
 
 // SQL Database Connection
+//Diclaimer: If you are downloading this repository for your own use remember to set up an .env file along with populating the db/sql files.
 const db = mysql.createConnection(
     {
         host: process.env.DB_HOST,

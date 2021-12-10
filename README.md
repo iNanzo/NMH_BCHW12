@@ -2,6 +2,8 @@
 
 https://youtu.be/B6yi_4vm0tY
 
+Diclaimer: If you are downloading this repository for your own use remember to set up an .env file along with populating an sql database with the schema & seeds files.
+
 ## My Task
 
 A NodeJS employee tracker using Inquirer and MySQL. Set up similarly to my Team Profile Generator, the struggles this time was getting used to MySQL and console.table. After reviewing enough to get them somewhat working, the rest was surprisingly similar to previous work (aside from using values to plug into the MySQL table rather than an HTML file).
