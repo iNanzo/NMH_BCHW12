@@ -113,10 +113,10 @@ function AddEmployeeInput(){
 // Add Outputs
 async function addRoleOutput(title, salary){
     var deptArray = [];
-    var reference;
+    var storedDeptArray;
 
     await db.promise().query("select * from department").then((results) => {
-        reference = results[0];
+        storedDeptArray = results[0];
         results[0].forEach(element => {
             deptArray.push(element.dept_name);
         })
